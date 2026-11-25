@@ -1,0 +1,6 @@
+{
+  "Name": "ReFramework UiDemo",
+  "ProjectType": "Process",
+  "Description": "Re Framewokr for UiDemo create a queue from input file",
+  "MainFile": "Main.xaml"
+}
