@@ -37,3 +37,39 @@
 2. Implement InitiAllApplications.xaml and CloseAllApplicatoins.xaml workflows, linking them in the Config.xlsx fields
 3. Implement GetTransactionData.xaml and SetTransactionStatus.xaml according to the transaction type being used (Orchestrator queues by default)
 4. Implement Process.xaml workflow and invoke other workflows related to the process being automated
+
+
+# UiDemo -  Dispatcher : Re-Framework Template Design Steps
+
+1. Select the ReFramework Template  : 24.10.1
+2. Open Initializetion State
+3. Open InitAllApplication.xaml
+4. Create a Queue in Orchestrator : UiDemo Queue
+5. Place the input file in the Data > Input Folder of the project
+6. Use Read CSV Activity : out_dtTransactionData (DataTable)
+7. Pass the value of out_dtTransactionData = dt_TransactionData
+8. Open Config File :  Data > Temp : Config.xls file : Update the config file with Queue Name
+9. Open Gate Transaction Data State
+10. Open GetTransactionData.xaml
+11. Delete GetTransaction Activity
+12. Add if activity
+13. Condition : in_TransactionNumber = 1
+14. Assign Activity Then : out_TransactionItem = io_dt_TransactionData.Rows(0)
+15. DataType Change : out_TransactionItem : system.data.datarow
+16. Change DataType of TransactionItem to system.data.datarow
+17. Argument Panel : out_TransactionItem = TransactionItem
+18. Else out_TransactionItem = Nothing
+
+19. Open Process State
+20. Open Process.xaml
+21. in_TransactionItem change the datatype to DataRow
+22. use for each row in DataTable activity
+23. create a new argument called in_dt_transactionDate (DataTable)
+24. For Each Row : in_dt_TransactionData
+25. Use Add Queue Item Activity and Configure
+26. Create an Argument called: io_TransactionNumber (Int32)
+27. io_TransactionNumber = TransactionNumber (Argument configuration panel)
+28. io_TransactionNumber = io_TransactionNumber + 1 
+29. Delete the set transaction try catch block success + BE
+30. System catch block delete the set transaction status
+31. Use the log message for system exceptions
